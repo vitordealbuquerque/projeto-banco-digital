@@ -12,43 +12,26 @@ Projeto de portfólio construído em cima de uma base sintética de banco digita
 
 ## Como o projeto foi montado
 
-**1. Extração e modelagem**
-Os dados nasceram como CSV (clientes.csv, produtos_cliente.csv, transacoes.csv) e foram carregados num schema PostgreSQL com três tabelas: clientes (dimensão), produtos_cliente (ponte cliente-produto) e transacoes (fato). Chaves primárias, foreign keys e CHECK constraints garantem a integridade, segmento só pode ser Standard/Plus/Premium, tipo de transação é limitado a uma lista fechada de 10 categorias (PIX enviado/recebido, compra crédito/débito, TED, boleto, pagamento de fatura, investimento, recarga, saque).
+**1. Extração e modelagem.** Os dados nasceram como CSV (clientes.csv, produtos_cliente.csv, transacoes.csv) e foram carregados num schema PostgreSQL com três tabelas: clientes (dimensão), produtos_cliente (ponte cliente-produto) e transacoes (fato). Chaves primárias, foreign keys e CHECK constraints garantem a integridade: segmento só pode ser Standard, Plus ou Premium, e tipo de transação é limitado a uma lista fechada de 10 categorias (PIX enviado e recebido, compra crédito e débito, TED, boleto, pagamento de fatura, investimento, recarga, saque).
 
-**2. SQL**
-Depois da carga, rodei limpeza (checagem de nulos, outliers, colunas derivadas como ano_mes) e 10 blocos de análise usando CTE, window functions (RANK, LAG, NTILE), PERCENTILE_CONT e FILTER. É onde saem os números de churn, ticket médio e MAU que alimentam o dashboard.
+**2. SQL.** Depois da carga, rodei limpeza (checagem de nulos, outliers, colunas derivadas como ano_mes) e 10 blocos de análise usando CTE, window functions (RANK, LAG, NTILE), PERCENTILE_CONT e FILTER. É onde saem os números de churn, ticket médio e MAU que alimentam o dashboard.
 
-**3. Power BI**
-O modelo semântico foi montado direto em cima das tabelas, com as medidas DAX principais (Total Clientes, Churn %, Volume Total, MAU, PIX %) e um tema customizado em tons de verde oliva.
+**3. Power BI.** O modelo semântico foi montado direto em cima das tabelas, com as medidas DAX principais (Total Clientes, Churn %, Volume Total, MAU, PIX %) e um tema customizado em tons de verde oliva.
 
 ## Estrutura do repositório
 
-02_sql/
-  01_criar_tabelas.sql - DDL: schema, PKs, FKs, CHECK, índices
-    02_carregar_dados.sql - COPY dos CSV
-      03_limpeza.sql - nulos, outliers, colunas derivadas
-        04_analises.sql - 10 blocos de KPI
+O repositório tem duas pastas. Em 02_sql/ ficam os quatro scripts: 01_criar_tabelas.sql (DDL, schema, PKs, FKs, CHECK, índices), 02_carregar_dados.sql (COPY dos CSV), 03_limpeza.sql (nulos, outliers, colunas derivadas) e 04_analises.sql (10 blocos de KPI). Em 06_prints/ fica estrutura_projeto.svg, o diagrama do modelo relacional.
 
-        06_prints/
-          estrutura_projeto.svg - diagrama do modelo relacional
+Os prints da execução no PostgreSQL (carga e análise com window functions) e a base completa em CSV entram assim que eu rodar o projeto contra um Postgres real, os scripts em 02_sql/ já estão prontos para isso.
 
-          Os prints da execução no PostgreSQL (carga e análise com window functions) e a base completa em CSV entram assim que eu rodar o projeto contra um Postgres real, os scripts em 02_sql/ já estão prontos para isso.
+## O que o dashboard mostra
 
-          ## O que o dashboard mostra
+Churn de 12,5%, mais concentrado em clientes vindos de Redes Sociais e Parcerias (Indicação segue com a menor taxa). PIX é o meio mais usado, puxando quase metade do volume de transações. Cross-sell parado em 2,67 produtos por cliente, ainda dá pra empurrar mais Investimentos e Seguros no segmento Standard. MAU sobe de forma consistente ao longo de 2024, depois do ramp-up inicial da base em 2023.
 
-          - Churn de 12,5%, mais concentrado em clientes vindos de Redes Sociais e Parcerias. Indicação segue com a menor taxa.
-          - PIX é o meio mais usado, puxando quase metade do volume de transações.
-          - Cross-sell parado em 2,67 produtos por cliente, ainda dá pra empurrar mais Investimentos e Seguros no segmento Standard.
-          - MAU sobe de forma consistente ao longo de 2024, depois do ramp-up inicial da base em 2023.
+## Rodando localmente
 
-          ## Rodando localmente
+Os scripts rodam em sequência com psql: primeiro 02_sql/01_criar_tabelas.sql, depois 02_sql/02_carregar_dados.sql, 02_sql/03_limpeza.sql e por último 02_sql/04_analises.sql.
 
-          psql -f 02_sql/01_criar_tabelas.sql
-          psql -f 02_sql/02_carregar_dados.sql
-          psql -f 02_sql/03_limpeza.sql
-          psql -f 02_sql/04_analises.sql
+## Autor
 
-          ## Autor
-
-          Vitor Franca — engenheiro civil migrando para análise de dados.
-          
+Vitor Franca — engenheiro civil migrando para análise de dados.
