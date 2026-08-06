@@ -18,6 +18,7 @@ Projeto de portfólio construído em cima de uma base sintética de banco digita
 
 ![Criacao das tabelas no PostgreSQL](https://github.com/user-attachments/assets/f57e0e2a-0d1f-49cf-a45b-8e22ac662616)
 
+<img width="1058" height="426" alt="print_sql_churn_canal_real2" src="https://github.com/user-attachments/assets/e6db01d6-12de-488b-a639-be7fd4447f35" />
 
 
 **3. Power BI.** O modelo semântico foi montado direto em cima das tabelas, com as medidas DAX principais (Total Clientes, Churn %, Volume Total, MAU, PIX %) e um tema customizado em tons de verde oliva.
