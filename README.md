@@ -16,17 +16,19 @@ Projeto de portfólio construído em cima de uma base sintética de banco digita
 
 **2. SQL.** Depois da carga, rodei limpeza (checagem de nulos, outliers, colunas derivadas como ano_mes) e 10 blocos de análise usando CTE, window functions (RANK, LAG, NTILE), PERCENTILE_CONT e FILTER. É onde saem os números de churn, ticket médio e MAU que alimentam o dashboard.
 
+![Criacao das tabelas no PostgreSQL](https://github.com/user-attachments/assets/f57e0e2a-0d1f-49cf-a45b-8e22ac662616)
+
+![Query de churn por canal de aquisicao](https://github.com/user-attachments/assets/a501c0f4-c40b-4094-b7cc-656205c98713)
+
 **3. Power BI.** O modelo semântico foi montado direto em cima das tabelas, com as medidas DAX principais (Total Clientes, Churn %, Volume Total, MAU, PIX %) e um tema customizado em tons de verde oliva.
 
 ## Estrutura do repositório
 
-O repositório tem duas pastas. Em 02_sql/ ficam os quatro scripts: 01_criar_tabelas.sql (DDL, schema, PKs, FKs, CHECK, índices), 02_carregar_dados.sql (COPY dos CSV), 03_limpeza.sql (nulos, outliers, colunas derivadas) e 04_analises.sql (10 blocos de KPI). Em 06_prints/ fica estrutura_projeto.svg, o diagrama do modelo relacional.
-
-Os prints da execução no PostgreSQL (carga e análise com window functions) e a base completa em CSV entram assim que eu rodar o projeto contra um Postgres real, os scripts em 02_sql/ já estão prontos para isso.
+O repositório tem duas pastas. Em 02_sql/ ficam os quatro scripts: 01_criar_tabelas.sql (DDL, schema, PKs, FKs, CHECK, índices), 02_carregar_dados.sql (COPY dos CSV), 03_limpeza.sql (nulos, outliers, colunas derivadas) e 04_analises.sql (10 blocos de KPI). Em 06_prints/ ficam o diagrama do modelo relacional e os prints reais da execução no PostgreSQL.
 
 ## O que o dashboard mostra
 
-Churn de 12,5%, mais concentrado em clientes vindos de Redes Sociais e Parcerias (Indicação segue com a menor taxa). PIX é o meio mais usado, puxando quase metade do volume de transações. Cross-sell parado em 2,67 produtos por cliente, ainda dá pra empurrar mais Investimentos e Seguros no segmento Standard. MAU sobe de forma consistente ao longo de 2024, depois do ramp-up inicial da base em 2023.
+Churn geral de 12,5%. Por canal de aquisição, Marketing Digital (14,6%) e Orgânico (13,5%) concentram o maior churn, enquanto Indicação tem a menor taxa (9,9%). PIX é o meio mais usado, puxando quase metade do volume de transações. Cross-sell parado em 2,67 produtos por cliente, ainda dá pra empurrar mais Investimentos e Seguros no segmento Standard. MAU sobe de forma consistente ao longo de 2024, depois do ramp-up inicial da base em 2023.
 
 ## Rodando localmente
 
